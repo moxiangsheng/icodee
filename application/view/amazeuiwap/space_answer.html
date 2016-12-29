@@ -1,0 +1,46 @@
+<!--{template header}-->
+<section class="am-container">
+<!--{template space_menu}-->
+
+
+<ul class=" am-margin-sm am-avg-sm-2 boxes">
+
+    <li class="box box-1  "><!--{if $status=='all'}--> <i class="am-icon-check"></i><!--{/if}--><a href="{url user/space_answer/$member['uid']}">全部回答</a></li>
+    <li class="box box-2"><!--{if $status==2}--><i class="am-icon-check"></i> <!--{/if}--><a href="{url user/space_answer/$member['uid']/2}">被采纳的回答</a></li>
+
+</ul>
+
+<!--{if $answerlist}-->
+<ul class="am-list am-margin-sm">
+    <!--{loop $answerlist $answer}-->
+
+
+
+
+
+
+
+    <li class="am-g am-list-item-desced">
+        <a title="{$question['title']}" href="{url question/view/$answer['qid']/u-$user['uid']/a-$answer['id']}" class="am-list-item-hd">{$answer['title']}</a>
+        <div class="am-list-item-text ">{$answer['description']}</div>
+        <div class="am-cf">
+            <small>  <span class="am-fl">   {if $answer['adopttime']>0}<font color="green">已采纳</font>{else}新补充{/if}</span>
+                <span class="am-fr">{$answer['time']}</span></small>
+        </div>
+    </li>
+
+
+
+    <!--{/loop}-->
+</ul>
+<div class="pages">
+    {$departstr}
+</div>
+<!--{else}-->
+<p class="am-text-left"> >您还没有回答过呢！ </p>
+<!--{/if}-->
+
+<div class="pages">{$departstr}</div>
+</section>
+
+<!--{template footer}-->

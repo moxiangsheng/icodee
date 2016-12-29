@@ -1,0 +1,109 @@
+
+<!--{template header}-->
+<section class="am-container">
+<!--{template user_menu}-->
+
+
+<ul class="am-avg-sm-2 boxes am-margin-left-sm">
+
+    <li class="box box-1  "><!--{if $type=="personal"}--> <i class="am-icon-check"></i><!--{/if}--><a href="{url message/personal}">私人消息</a></li>
+    <li class="box box-2"><!--{if $type=="system"}--><i class="am-icon-check"></i> <!--{/if}--><a href="{url message/system}">系统消息</a></li>
+
+</ul>
+
+  <form name="msgform" action="{url message/remove}" method="POST" onsubmit="javascript:if (!confirm('确定删除所选消息?')) return false;">
+
+<ul class="am-list">
+    <!--{loop $messagelist $message}-->
+
+    <li class="am-margin-top-sm">
+        <div class="am-g">
+           <div class="am-u-sm-12 am-cf am-margin-top-sm">
+               <!--{if $message['fromuid']}-->
+               <a href="{url user/space/$message['fromuid']}" title="supermustang" target="_blank" class="am-fl"><img width="71" height="71" alt="{$message['from']}" src="{$message['from_avatar']}"/></a>
+               <!--{/if}-->
+               <h3 class="am-fl am-text-middle am-margin-left-sm">
+                   <!--{if $message['fromuid']==$user['uid']}-->
+                   <input  class="am-checkbox-inline" type='checkbox' value="{$message['id']}" name="messageid[outbox][]"/>
+                   <a href="{url user/score}">您</a> 对 <a href="{url user/space/$message['fromuid']}">{$message['touser']}</a> 说：
+                   <!--{else}-->
+                   <input class="am-checkbox-inline"  type='checkbox' value="{$message['id']}" name="messageid[inbox][]"/>
+                   <a href="{url user/space/$message['fromuid']}">{$message['from']}</a> 对 <a href="{url user/score}">您</a> 说：
+                   <!--{/if}-->
+
+               </h3>
+
+           </div>
+
+            <div class="am-u-sm-12">
+                {$message['subject']}
+
+                <div class="am-u-sm-12">
+
+
+                   <p class="am-kai">{$message['content']}</p>
+                </div>
+                <div class="am-u-sm-12">
+                    {$message['format_time']}
+                    </div>
+            </div>
+
+        </div>
+
+</li>
+    <!--{/loop}-->
+    <li><div class="am-margin-top-sm"><input class="am-checkbox-inline" type="checkbox" value="chkall" id="chkall" onclick="checkall('messageid');"/> 全选&nbsp;&nbsp;<input  type="submit" value="删除" name="submit" class="am-btn am-btn-primary" /></div></li>
+</ul>
+
+  </form>
+<!--{if 'personal'==$type}-->
+<ul class="am-list">
+    <form name="commentform" action="{url message/send}" method="POST" onsubmit="return check_form();">
+        <li>
+        <div class="am-g ">
+
+
+
+            <div class="am-u-sm-2 ">
+                <span class="pic"><img alt="{$user['username']}" src="{$user['avatar']}"/></span>
+            </div>
+            <div class="am-u-sm-9 am-text-top ">
+
+                <textarea class="am-form-field " id="content" name="content" >
+说点什么
+                </textarea>
+
+
+                <input type="text" placeholder="输入验证码"  id="code" name="code" class="am-form-field am-margin-top-sm"  onblur="check_code()">
+              <div class="am-margin-top-sm">
+                  <span class="verifycode"><img src="{url user/code}" onclick="javascript:updatecode();" id="verifycode"></span><a href="javascript:updatecode();" class="changecode">&nbsp;换一个</a>
+
+                  <span id="codetip"></span>
+                  <input type="hidden" name="username" value="{$fromuser['username']}" />
+                  <input type="submit" value="提&nbsp;交" class="am-btn am-btn-primary" name="submit">
+              </div>
+
+
+
+            </div>
+
+        </div>
+        </li>
+
+        </form>
+</ul>
+<!--{/if}-->
+<div class="pages">{$departstr}</div>
+
+<script type="text/javascript">
+function check_form() {
+    if ($.trim($("#content").val()) == '') {
+        alert("消息内容不能为空!");
+        return false;
+    }
+    return true;
+}
+</script>
+
+    </section>
+<!--{template footer}-->

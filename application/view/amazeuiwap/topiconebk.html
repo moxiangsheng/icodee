@@ -1,0 +1,154 @@
+<!--{template header}-->
+<section class="am-container" >
+    <article data-am-widget="paragraph"
+             class="am-paragraph am-paragraph-default "
+
+             data-am-paragraph="{ tableScrollable: true, pureview: true }">
+        <h1 class="am-center am-text-lg am-margin-top-sm">{$topicone['title']}</h1>
+        <p class="am-cf"><span class="am-fl">作者:{$topicone['author']}</span> <span class="am-fr">{$topicone['viewtime']}</span></p>
+
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+
+          <div class="font20">
+   {eval    echo replacewords($topicone['describtion']);    }
+            
+          </div>
+
+        <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="{$topicone['id']}" data-title="{$topicone['title']}" data-url="{url article-$topicone['id']}"></div>
+        <!-- 多说评论框 end -->
+        <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:"ask2"};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                        || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+        <!-- 多说公共JS代码 end -->
+    </article>
+    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <!--列表标题-->
+        <div class="am-list-news-hd am-cf">
+            <!--带更多链接-->
+            <a href="###">
+                <h2>最新文章推荐</h2>
+                <a href="{url topic/default}"  ><span class="am-list-news-more am-fr">更多 &raquo;</span></a>
+            </a>
+        </div>
+        <div class="am-list-news-bd">
+            <ul class="am-list">
+                <!--缩略图在标题上方-->
+ <!--{loop $topiclist3 $index $topic}-->
+			
+		 <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-top">
+                    <div class="am-list-thumb am-col col-sm-12">
+                        <a href="{url topic/getone/$topic['id']}">
+                        
+                        {eval $index=strpos($topic['image'],'http');}
+                       {if $index==0 }
+                            
+                           <img src="{$topic['image']}" alt="{$topic['title']}" />
+                            {else}
+                            <img src="{SITE_URL}{$topic['image']}" alt="{$topic['title']}" />
+                            
+                            {/if}
+                           
+                                    
+                        </a>
+                    </div>
+                    <div class="am-col am-list-main">
+                        <h3 class="am-list-item-hd">
+                            <a href="{url topic/getone/$topic['id']}">{$topic['title']}</a>
+                        </h3>
+                        <div class="am-list-item-text">{eval echo strip_tags($topic['describtion']);}</div>
+                    </div>
+                </li>
+			 <!--{/loop}-->
+            </ul>
+        </div>
+    </div>
+</section>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+{eval $index=strpos($topic['image'],'http');}
+{if $index==0 }
+     
+  var imgurl="{$topic['image']}";
+     {else}
+  
+     
+    var imgurl="{SITE_URL}{$topic['image']}";
+     {/if}
+  // 注意：所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。 
+  // 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+  // 完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+  wx.config({
+	
+    appId: '{$signPackage["appId"]}',
+    timestamp: {$signPackage["timestamp"]},
+    nonceStr: '{$signPackage["nonceStr"]}',
+    signature: '{$signPackage["signature"]}',
+    jsApiList: [
+  
+      // 所有要调用的 API 都要加到这个列表中
+      'checkJsApi',
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+  });
+  wx.ready(function () {
+	  wx.checkJsApi({
+		    jsApiList: ['onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+		    success: function(res) {
+		    	alert(res);
+		        // 以键值对的形式返回，可用的api值true，不可用为false
+		        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+		    }
+		});
+    // 在这里调用 API
+	  wx.onMenuShareAppMessage({
+          title: '{$topicone['title']}',
+          desc: '这是描述',
+          link: '{eval echo "http://" . $_SERVER["HTTP_HOST"]."/article-".$topicone["id"];}',
+          imgUrl: imgurl,
+          trigger: function (res) {
+            // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+             alert('用户点击发送给朋友');
+          },
+          success: function (res) {
+             alert('已分享');
+          },
+          cancel: function (res) {
+             alert('已取消');
+          },
+          fail: function (res) {
+             alert(JSON.stringify(res));
+          }
+        });
+
+        wx.onMenuShareTimeline({
+          title: '{$topicone['title']}',
+          link: '{eval echo "http://" . $_SERVER["HTTP_HOST"]."/article-".$topicone["id"];}',
+          imgUrl: imgurl,
+          trigger: function (res) {
+            // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+             alert('用户点击分享到朋友圈');
+          },
+          success: function (res) {
+             alert('已分享');
+          },
+          cancel: function (res) {
+             alert('已取消');
+          },
+          fail: function (res) {
+             alert(JSON.stringify(res));
+          }
+        });
+  });
+</script>
+<!--{template footer}-->

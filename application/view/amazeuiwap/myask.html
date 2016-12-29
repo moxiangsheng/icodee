@@ -1,0 +1,47 @@
+
+<!--{template header}-->
+<section class="am-container">
+<!--{template user_menu}-->
+
+
+<ul class="am-avg-sm-4 boxes">
+
+    <li class="box box-1  "><!--{if $status==1}--> <i class="am-icon-check"></i><!--{/if}--><a href="{url user/ask/1}">待解决</a></li>
+    <li class="box box-2"><!--{if $status==2}--><i class="am-icon-check"></i> <!--{/if}--><a  href="{url user/ask/2}">已解决</a></li>
+    <li class="box box-3 "><!--{if $status==0}--><i class="am-icon-check"></i><!--{/if}--><a  href="{url user/ask/0}">审核中</a></li>
+    <li class="box box-4 "><!--{if $status==9}--> <i class="am-icon-check"></i><!--{/if}--><a  href="{url user/ask/9}">已过期</a></li>
+</ul>
+
+
+<!--{if $questionlist}-->
+<ul class="am-list am-margin-sm">
+<!--{loop $questionlist $question}-->
+
+
+
+
+
+
+
+    <li class="am-g am-list-item-desced">
+        <a title="{$question['title']}" href="{url question/view/$question['id']}" class="am-list-item-hd">{$question['title']}</a>
+        <div class="am-list-item-text ">{$question['description']}</div>
+        <div class="am-cf">
+            <small>  <span class="am-fl">{$question['answers']}回答</span> <span class="am-fr">{$question['format_time']}</span></small>
+        </div>
+    </li>
+
+
+
+<!--{/loop}-->
+</ul>
+<div class="pages">
+    {$departstr}
+</div>
+<!--{else}-->
+    <p class="am-text-left"> 结果为空 </p>
+<!--{/if}-->
+
+</section>
+
+<!--{template footer}-->

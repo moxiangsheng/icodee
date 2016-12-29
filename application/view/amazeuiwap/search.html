@@ -1,0 +1,101 @@
+﻿<!--{template header}-->
+<section class="am-container am-margin-top-sm" >
+    <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default am-margin-0" >
+        <h2 class="am-titlebar-title ">
+            为您找到相关结果约{$rownum}个
+        </h2>
+
+
+    </div>
+    <!--{if $questionlist}-->
+        <ul class="am-avg-sm-2 boxes">
+
+
+            <!--{if 1==$status}--><li class="am-active box box-1">全部问题</li><!--{else}--><li><a class="am-text-sm" href="{url question/search/$word}">全部问题</a></li><!--{/if}-->
+
+            <!--{if 2==$status}--><li class="am-active box box-2">已解决<!--{else}--><li><a class="am-text-sm" href="{url question/search/$word/2}">已解决</a></li><!--{/if}-->
+
+        </ul>
+
+
+
+            <ul class="am-list">
+                <!--{loop $questionlist $index $question}-->
+                <li class="am-g am-list-item-desced">
+                    <a title="{$question['title']}" href="{url question/view/$question['id']}" class="am-list-item-hd">{$question['title']}</a>
+                    <div class="am-list-item-text ">{$question['description']}</div>
+                    <div class="am-cf">
+                        <small>  <span class="am-fl">{$question['author']}</span> <span class="am-fr">{$question['format_time']}</span></small>
+                    </div>
+                </li>
+                <!--{/loop}-->
+            </ul>
+
+        <!--{else}-->
+        <div id="no-result">
+            <p>抱歉，未找到和 <span>"</span><em>{$word}</em><span>"</span>相关的内容。</p>
+            <strong>建议您：</strong>
+            <ul class="am-list">
+                <li><span>检查输入是否正确</span></li>
+                <li><span>简化查询词或尝试其他相关词</span></li>
+            </ul>
+        </div>
+        <!--{/if}-->
+
+        <!--{if $departstr}-->
+
+        <div class="pages am-text-lg">{$departstr}</div>
+        <!--{/if}-->
+        ﻿
+
+
+
+
+        <!--{if $setting['xunsearch_open'] && !$tag}-->
+        <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default am-margin-0" >
+            <h2 class="am-titlebar-title ">
+                相关搜索
+            </h2>
+
+
+        </div>
+
+        <ul class="am-avg-sm-3 boxes">
+            <!--{loop $related_words $index $word}-->
+            <!--{if $index<=3}-->
+
+
+
+            <li class="box box-$index">
+                <a  href="{url question/search/$word}" title="{$word}" >{$word}</a>
+
+            </li>
+            <!--{/if}-->
+            <!--{/loop}-->
+            <li class="box box-$index">
+                <a  href="{url question/search/$related_words[4]}" title="{$related_words[4]}" >{$related_words[4]}</a>
+
+            </li>
+            <li class="box box-$index">
+                <a  href="{url question/search/$related_words[5]}" title="{$related_words[5]}" >{$related_words[5]}</a>
+
+            </li>
+            <li class="box box-$index">
+                <a  href="{url question/search/$related_words[6]}" title="{$related_words[6]}" >{$related_words[6]}</a>
+
+            </li>
+            <li class="box box-$index">
+                <a  href="{url question/search/$related_words[7]}" title="{$related_words[7]}" >{$related_words[7]}</a>
+
+            </li>
+
+        </ul>
+
+
+        <!--{/if}-->
+
+
+
+   </section>
+
+<!--{template footer}-->

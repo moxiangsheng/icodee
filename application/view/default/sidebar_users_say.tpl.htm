@@ -1,0 +1,59 @@
+<?php if (!defined('app_fox')) exit('No direct script access allowed');?>
+<div class="aw-mod aw-text-align-justify" id="saybox">
+	<?php if ($this->side_users_say) {?>
+	<div class="mod-head">
+		<h3><?php _e('他们在说'); ?></h3>
+	</div>
+	<div class="mod-body" id="quotation">
+		<ul>
+		<?php foreach($this->side_users_say as $key => $val) { ?>
+		<li>
+				<span class="side-comment-time"><?php echo date_friendly($val['add_time'],604800,'m-d H:i')?><?php //echo long2ip($val['user_box']['last_ip'])?></span>
+				<?php if($val['anonymous']==0){?>
+				<a class="dark aw-user-name" data-id="<?php echo $val['uid'];?>" href="people/<?php echo $val['user_box']['url_token']; ?>">
+				<img src="<?php echo get_avatar_url($val['uid'], 'mid'); ?>" alt="" /> <?php echo $val['user_box']['user_name'];?></a>
+				<?php }else{?>	
+				<a class="dark" href=""><img src="<?php echo G_STATIC_URL; ?>/common/avatar-himg.png" alt=""> <?php _e('匿名');;?></a>
+				<?php }?>
+				:
+				<?php $str = FORMAT::ubbfirebox($val['answer_content']);
+				$str = strip_tags(FORMAT::parse_attachs(nl2br(FORMAT::parse_bbcode(cjk_substr($str, 0, 200, 'UTF-8', '...')))));?>
+				<div class="side-comment"><a class="dark" href="question/<?php echo $val['question_id'];?>"><?php echo $str;?></a></div>
+				<!--#!answer_<?php echo $val['answer_id'];?>-->
+		</li>		
+		<?php }?>	
+		</ul>
+	</div>
+	<?php } ?>
+</div>
+<script type="text/javascript">
+$(function(){
+	var scrtime;
+	$("#quotation").hover(function(){
+		clearInterval(scrtime);
+	
+	},function(){
+	
+	scrtime = setInterval(function(){
+		var obj = $('#quotation ul li').last();
+		obj.hide();
+		$('#quotation ul').prepend(obj);
+		$('#quotation ul li').first().slideDown(500);
+	},5000);
+	
+	}).trigger("mouseleave");
+	
+var fixfox="fixedffs";
+var rollSet = $('#saybox');// 检查对象，#sidebar-tab是要随滚动条固定的ID，可根据需要更改
+var offset = rollSet.offset();
+$(window).scroll(function () {
+// 检查对象的顶部是否在游览器可见的范围内
+var scrollTop = $(window).scrollTop();
+if(offset.top < scrollTop && $(document).scrollTop() + $(window).height() < $(document).height()){
+rollSet.addClass(fixfox);
+}else{
+rollSet.removeClass(fixfox);
+}
+});
+});
+</script>

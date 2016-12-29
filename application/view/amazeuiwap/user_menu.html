@@ -1,0 +1,29 @@
+
+<div class="am-g am-margin-top-sm">
+    <div class="am-u-sm-2">
+        <a class="pic" title="{$user['username']}" href="{url user/profile}"><img width="60" height="60" src="{$user['avatar']}" alt="{$user['username']}"></a>
+    </div>
+    <div class="am-u-sm-10 am-cf">
+      <div class="am-u-sm-12">
+          <h3 class="am-fl">{$user['username']}<span class="am-margin-left-sm">{$user['grouptitle']}</span></h3>
+          <span class="am-fr user-edit-news"  onclick="javascript:document.location = '{url message/send}'">
+写消息<i class="am-icon-edit"></i>
+              </span>
+      </div>
+        <div class="am-u-sm-12">
+
+
+
+                <ul class="am-avg-sm-3 boxes">
+
+                    <li class="box box-1"><a href="{url user/ask/1}">提问数</a>{$user['questions']}</li>
+                    <li class="box box-2"><a href="{url user/answer/1}">回答数</a>{$user['answers']}</li>
+                    <li class="box box-3"><a href="#">赞同数</a>{$user['supports']}</li>
+                </ul>
+
+
+
+            </div>
+    </div>
+</div>
+<hr class="am-divider am-divider-dashed">

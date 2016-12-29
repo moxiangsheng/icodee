@@ -1,0 +1,31 @@
+
+<script type="text/javascript">
+		var ANNOUNCE_CLOSE = 'bc1a2f0d9a';
+
+		$(document).ready(function()
+		{
+			if (ANNOUNCE_CLOSE != $.cookie('announce_close'))
+			{
+				$('#aw-site-announce').show();
+			}
+		});
+		</script>
+<div class="aw-mod new-announce hide" id="aw-site-announce" style="display: block;">
+			<div class="mod-head">
+				<h3>
+					<a class="pull-right" href="javascript:;" onclick="$('#aw-site-announce').fadeOut(); $.cookie('announce_close', ANNOUNCE_CLOSE, { expires: 30 });"><i class="icon icon-delete text-color-999"></i></a>
+					公告				</h3>
+			</div>
+			<div class="mod-body">
+			
+				
+				 <!--{eval $notelist=$this->fromcache('notelist');}-->
+ <!--{loop $notelist $nindex $note}-->
+ {if $nindex==1}
+ <a target="_blank" title="{$note['title']}" {if $note['url']}href="{$note['url']}"{else}href="{url note/view/$note['id']}"{/if}>
+       {eval echo cutstr({$note['title']},40,'');}
+       </a>
+       {/if}
+   <!--{/loop}-->
+					</div>
+		</div>

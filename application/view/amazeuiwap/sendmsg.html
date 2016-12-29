@@ -1,0 +1,47 @@
+
+<!--{template header}-->
+<section class="am-container">
+<!--{template user_menu}-->
+
+
+        <div class="am-cf">
+
+            <span class="am-fr am-margin-right-sm">
+                <a href="{url message/personal}">返回消息列表</a>
+            </span>
+        </div>
+     <form class="am-form" action="{url message/send}" method="post">
+
+         <fieldset>
+             <legend> 发送消息</legend>
+
+             <div class="am-form-group">
+                 <label for="doc-ipt-email-1">收件人:</label>
+                 <input type="text" id="username" name="username" class="am-form-field" value="{$sendto['username']}"  placeholder="输入要发送的收件人用户名">
+             </div>
+             <div class="am-form-group">
+                 <label for="doc-ipt-email-1">主题:</label>
+                 <input type="text" id="subject" name="subject" class="am-form-field" value="{$sendto['username']}"  placeholder="输入要发送主题">
+             </div>
+             <div class="am-form-group">
+                 <label for="doc-ipt-email-1">内容:</label>
+                <textarea id="content" name="content">
+
+
+                </textarea>
+             </div>
+             <div class="am-form-group">
+                 <label for="doc-ipt-email-1">验证码:</label>
+                 <input type="text" id="code" name="code" onblur="check_code();"class="am-form-field" value="{$sendto['username']}"  placeholder="输入验证码">
+             </div>
+
+             <div class="am-form-group">
+                 <span id="codetip"></span>
+                </div>
+             <span class="verifycode"><img  src="{url user/code}" onclick="javascript:updatecode();" id="verifycode"></span><a class="changecode" href="javascript:updatecode();">&nbsp;看不清?</a>
+             </fieldset>
+         <input type="submit" name="submit" class="am-margin-left-sm am-btn am-btn-primary am-margin-top-sm" value="发&nbsp;送" />
+
+     </form>
+</section>
+<!--{template footer}-->

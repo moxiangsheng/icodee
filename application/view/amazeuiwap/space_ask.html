@@ -1,0 +1,53 @@
+<!--{template header}-->
+<section class="am-container">
+<!--{template space_menu}-->
+
+
+<ul class=" am-margin-sm am-avg-sm-4 boxes">
+
+    <li class="box box-1  "><!--{if $status==1}--> <i class="am-icon-check"></i><!--{/if}--><a href="{url user/space_ask/$member['uid']}">待解决问题</a></li>
+    <li class="box box-2"><!--{if $status==2}--><i class="am-icon-check"></i> <!--{/if}--><a href="{url user/space_ask/$member['uid']/2}">已解决问题</a></li>
+
+</ul>
+
+<!--{if $questionlist}-->
+<ul class="am-list am-margin-sm">
+    <!--{loop $questionlist $question}-->
+
+
+
+
+
+
+
+    <li class="am-g am-list-item-desced">
+        <a title="{$question['title']}" href="{url question/view/$question['id']}" class="am-list-item-hd">
+            <!--{if $question['price'] > 0}-->
+            <span class="gold"><img src="{SITE_URL}css/default/gold.gif">$question['price']</span>
+            <!--{/if}-->  {$question['title']}
+
+        </a>
+        <div class="am-list-item-text ">{$question['description']}</div>
+        <div class="am-cf">
+            <small>  <span class="am-fl">{$question['answers']}回答</span>
+                <span class="am-fl am-margin-left-sm">{$question['views']}浏览</span>
+
+
+                <span class="am-fr">{$question['format_time']}</span></small>
+        </div>
+    </li>
+
+
+
+    <!--{/loop}-->
+</ul>
+<div class="pages">
+    {$departstr}
+</div>
+<!--{else}-->
+<p class="am-text-left"> 结果为空 </p>
+<!--{/if}-->
+
+<div class="pages">{$departstr}</div>
+</section>
+<!--{template footer}-->

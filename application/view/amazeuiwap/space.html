@@ -1,0 +1,106 @@
+<!--{template header}-->
+<section class="am-container">
+<!--{template space_menu}-->
+
+<div class="am-list-news-hd am-cf">
+    <!--带更多链接-->
+    <a href="###">
+        <h2>{$member['username']}的资料</h2>
+
+    </a>
+</div>
+<ul class="am-avg-sm-3 boxes">
+
+
+    <li class="box box-1 "><em>{$member['answers']}</em><span>回答</span></li>
+    <li class="box box-2"><em>{$member['questions']}</em><span>提问</span></li>
+    <li class="box box-3"><em>{$adoptpercent}%</em>采纳率</li>
+    <li class="box box-4"><em>{$member['supports']}</em>赞同</li>
+    <li class="box box-5"><em>{$member['credit1']}</em>经验</li>
+    <li class="box box-6"><em>{$member['credit2']}</em><span>财富</span></li>
+    <li class="box box-7"><em>{$member['followers']}</em><span>关注者</span></li>
+    <li class="box box-8"><em>{$member['attentions']}</em><span>已关注</span></li>
+</ul>
+<div class="am-text-left-sm">
+    <!--{if $member['introduction']}-->
+    <p><label>身份：</label><i>{$member['introduction']}</i></p>
+    <!--{/if}-->
+    <p>
+        <label>擅长：</label>
+        <!--{if $member['category']}-->
+        <!--{loop $member['category'] $category}-->
+        <i class="expert-field"><a target="_blank" href="{url category/view/$category['cid']}">{$category['categoryname']}</a></i>
+        <!--{/loop}-->
+        <!--{else}-->
+        暂无
+        <!--{/if}-->
+    </p>
+    <!--{if $member['mobile']}-->
+    <p><label>手机：</label><i>{$member['mobile']}</i></p>
+    <!--{/if}-->
+    <!--{if $member['qq']}-->
+    <p><label>qq：</label><i>{$member['qq']}</i></p>
+    <!--{/if}-->
+    <p><label>介绍：</label><i><span>{if $member['signature']}{$member['signature']}{else}暂无介绍{/if}</span></i></p>
+    <p><label>注册日期：</label><i>{$member['register_time']}</i></p>
+    <p><label>最近更新：</label><i>{$member['refresh_time']}</i></p>
+</div>
+<div class="am-text-left-sm ">
+    <form  class="am-form " name="askform" action="{url question/add/$member['uid']}" method="POST">
+        <input type="text" class="am-form-field am-margin-top-sm" name="word" placeholder="对Ta提问内容描述"/>
+        <input type="submit" name="post" class="am-btn am-btn-primary am-margin-top-sm " value="向TA提问"  />
+    </form>
+</div>
+<div class="am-text-left-sm">
+    <div class="am-list-news-hd am-cf">
+        <!--带更多链接-->
+        <a href="###">
+            <h2>{$member['username']}的动态</h2>
+
+        </a>
+    </div>
+
+    <ul class="am-list">
+        <!--{loop $doinglist $doing}-->
+<li>
+
+    <div class="am-cf">
+        <span class="am-fl">
+
+             <!--{if $doing['hidden'] && in_array($doing['action'],array(1,8))}-->
+                                匿名
+                                <!--{else}-->
+                                <a title="{$doing['author']}"  target="_blank" href="{url user/space/$doing['authorid']}">{$doing['author']}</a>
+                                <!--{/if}-->
+                                {$doing['actiondesc']}
+
+        </span>
+        <span class="am-fr">
+            {$doing['doing_time']}
+
+        </span>
+    </div>
+    <p>
+        <a href="{url question/view/$doing['questionid']}" target="_blank">{$doing['title']}?</a>
+    </p>
+    <p>{$doing['content']}</p>
+
+    <div class="am-margin-sm am-margin-left-0 doing_state"> <i class="am-icon-user-plus" ></i> {$doing['attentions']}
+        <span class=" am-margin-right-sm"></span> <i class="am-icon-comment" ></i>{$doing['answers']} <span class="am-margin-right-sm">
+                            </span>  <i class="am-icon-eye" ></i>{$doing['views']} <span class="am-margin-right-sm">
+                            </span> <i class="am-icon-clock-o" ></i> {$doing['question_time']} </div>
+    <!--{if $doing['referid']}-->
+    <div class="quote am-btn-default">
+        <div class="avatar">
+            <a href="{url user/space/$doing['refer_authorid']}"  target="_blank" class="pic"><img width="51" height="51" alt="{$doing['author']}" src="{$doing['refer_avatar']}"  /></a>
+        </div>
+        <div class="detail"><p>{$doing['refer_content']}</p></div>
+    </div>
+    <!--{/if}-->
+</li>
+        <!--{/loop}-->
+    </ul>
+    <div class="pages">{$departstr}</div>
+</div>
+        </section>
+<!--{template footer}-->

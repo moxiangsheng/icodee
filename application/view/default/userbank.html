@@ -1,0 +1,144 @@
+<!--{template header}-->
+<!--用户中心大背景--->
+<div class="row nopadding nomargin">
+  <!--{template user_banner}-->
+
+</div>
+
+
+<!--用户中心大背景结束标记-->
+
+<!--用户中心-->
+
+<div class="user-home bg-white">
+    <div class="container">
+
+        <div class="row ">
+            <div class="col-sm-9">
+            <!-- 用户title部分导航 -->
+              <!--{template user_title}-->
+             <!-- title结束标记 -->
+       <!-- 内容页面 -->  
+    <div class="row">
+                 <div class="col-sm-12">
+                     <div class="dongtai">
+                         <p>
+                             <strong class="font-18">我的银行</strong>
+                         </p>
+                        
+                         <hr>
+                      
+ <p>您当前收益为：<font color="#FC6603">{$rmb}元</font>（如果超过十元可提现)</p>
+ 
+ <form class="form-horizontal" action="{url user/userbank}" method="post" onsubmit="return check_form();">
+ <div class="form-group">
+          <label class="col-md-2 control-label">收款账号:</label>
+          <div class="col-md-4">
+             <input type="text" id="bankcard" name="bankcard"  value="" placeholder="支付宝账号或者银行卡号" value="{$user['bankcard']}" class="form-control">
+          </div>
+        </div>
+         <div class="form-group">
+          <label class="col-md-2 control-label">验证码</label>
+          <div class="col-md-4">
+             <input type="text"  id="code" name="code" onblur="check_code();"  value="" class="form-control">
+             <div  id="codetip" class="help-block alert alert-warning ">验证码不能为空</div>
+          </div>
+        </div>
+          <div class="form-group">
+          <div class="col-md-2 col-md-offset-2">
+            <span class="verifycode"><img class="hand" src="{url user/code}" onclick="javascript:updatecode();" id="verifycode">
+                        </span>
+          </div>
+          <div class="col-md-1">
+              <a class="changecode" href="javascript:updatecode();">&nbsp;看不清?</a>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-10">
+             <input type="submit" id="submit" class="btn btn-danger" value="保存" data-loading="稍候..."> 
+          </div>
+        </div>
+ </form>
+                   <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>  打赏人UID</th>
+            <th>打赏人名字</th>
+            <th>  打赏金额(元)</th>
+                <th>    打赏内容</th>
+                  <th>    打赏时间</th>
+                    <th>     操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--{loop $moenylist $index $money}-->
+               <tr>
+                <td>
+              {$index}
+              </td>
+              <td>
+              {$money['fromuid']}
+              </td>
+              <td>
+               {$money['fromusername']}
+              </td>
+               <td>
+               {$money['money']}
+              </td>
+              <td>
+               {$money['operation']}
+              </td>
+              <td>
+               {$money['format_time']}
+              </td>
+              <td>
+            
+              <a href="{url message/send/$money['fromuid']}" target="_blank">私信感谢他</a>
+              </td>
+             </tr>
+                <!--{/loop}--> 
+         
+        </tbody>
+      </table>
+      <!--{if $moenylist==null}-->
+                  <p >暂无网友打赏记录</p>
+                    <!--{/if}-->
+                     </div>
+                 </div>
+
+
+             </div>
+            </div>
+           
+            <!--右侧栏目-->
+            <div class="col-sm-3 mar-t-2">
+
+
+              
+
+                <!--导航列表-->
+
+               <!--{template user_menu}-->
+
+                <!--结束导航标记-->
+
+
+                <div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--用户中心结束-->
+
+<!--{template footer}-->

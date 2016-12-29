@@ -1,0 +1,68 @@
+<!--{template header}-->
+<section class="am-container" >
+    <article data-am-widget="paragraph"
+             class="am-paragraph am-paragraph-default "
+
+             data-am-paragraph="{ tableScrollable: true, pureview: true }">
+        <h1 class="am-center am-text-lg am-margin-top-sm">{$topicone['title']}</h1>
+        <p class="am-cf"><span class="am-fl">作者:{$topicone['author']}</span> <span class="am-fr">{$topicone['viewtime']}</span></p>
+
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+
+          <div >
+   {eval    echo replacewords($topicone['describtion']);    }
+            
+          </div>
+
+      
+    </article>
+      <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="{$topicone['id']}" data-title="{$topicone['title']}" data-url="{url article-$topicone['id']}"></div>
+        <!-- 多说评论框 end -->
+        <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+        <script type="text/javascript">
+        {if $setting['site_name']!=''&&$setting['duoshuoname']!=null}
+       
+       
+        var duoshuoQuery = {short_name:"{$setting['duoshuoname']}"};
+        {/if}
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                        || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+        <!-- 多说公共JS代码 end -->
+    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <!--列表标题-->
+        <div class="am-list-news-hd am-cf">
+            <!--带更多链接-->
+            <a href="###">
+                <h2 style="font-size:1.5rem">最新文章推荐</h2>
+                <a href="{url topic/default}"  ><span class="am-list-news-more am-fr">更多 &raquo;</span></a>
+            </a>
+        </div>
+        <div class="am-list-news-bd">
+            <ul class="am-list">
+                <!--缩略图在标题上方-->
+ <!--{loop $topiclist3 $index $topic}-->
+			
+		 <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-top">
+            
+                    <div class="am-col am-list-main">
+                        <h5 class="am-list-item-hd" style="font-size:1.3rem;color:#000000;">
+                            <a href="{url topic/getone/$topic['id']}">{$topic['title']}</a>
+                        </h5>
+                       
+                    </div>
+                </li>
+			 <!--{/loop}-->
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!--{template footer}-->

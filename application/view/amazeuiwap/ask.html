@@ -1,0 +1,281 @@
+<!--{template header}-->
+
+<section class="am-container" >
+    <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default am-margin-top-sm" >
+        <h2 class="am-titlebar-title ">
+            {if isset($touser)}您正在向<a href="{url user/space/$touser['uid']}">{$touser['username']}</a>提问{else}请将您的问题告诉我们:{/if}
+        </h2>
+
+    </div>
+
+
+    <form id="login_form" class="am-form" onsubmit="return false;">
+    <input type="text" name="title" id="qtitle"  value="{$word}" class="am-form-field" placeholder="问题尽量描述清楚有助于网友帮你解决">
+   <h3>问题描述</h3>
+<textarea class="am-form-field" id="description" name="description"   placeholder="请输入问题补充，最多允许3000个字"></textarea>
+    <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+       <div class="ui-form-item ui-form-item-r ui-border-b">
+            <label>分类</label>
+            <div class="ui-select">
+                              <select  name="srchcategory" id="srchcategory">
+                              
+                              {$catetree}
+                              </select>
+            </div>
+        </div>
+     <!--{if $setting['code_ask']}-->
+                   验证码
+                    <input type="text" class="am-form-field" id="seccode_verify" name="seccode_verify"  placeholder="输入图片对应的验证码">
+                  
+                    <span class="verifycode"><img src="{url user/code}" onclick="javascript:updatecode();" id="verifycode"></span><a href="javascript:updatecode();" class="changecode">&nbsp;换一个</a>
+                    <span id="codetip"></span>
+                    <!--{/if}-->
+                    <br>
+    {if $user['uid']}  <span>
+        悬赏&nbsp;<select class="am-selected-btn" name="givescore" id="scorelist"><option selected="selected" value="0">0</option><option value="3">3</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="30">30</option><option value="50">50</option><option value="80">80</option><option value="100">100</option></select>
+
+    </span>
+    {/if}
+    <button class="am-btn am-btn-primary am-margin-top-sm" type="button" id="asksubmit"  name="submit">
+        提交
+    </button>
+                   <input type="hidden" name="asksid" id="asksid" value='{$_SESSION["asksid"]}'/>
+    <input type="hidden" name="classId" id="classId" value="">
+    <input type="hidden" name="cid" id="cid" value='1'/>
+    <input type="hidden" name="cid1" id="cid1" value="0"/>
+    <input type="hidden" name="cid2" id="cid2" value="0"/>
+    <input type="hidden" name="cid3" id="cid3" value="0"/>
+    <input type="hidden" value="{$askfromuid}" name="askfromuid" />
+</form>
+
+   </section>
+   {if $user['uid']>0&&$user['active']!=1}
+<div class="modal fade" id="emailtip">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+      <h4 class="modal-title">温馨提示</h4>
+    </div>
+    <div class="modal-body">
+      <p>由于网站设置，需要设置邮箱并且激活邮箱才能提问,<a href="{url user/editemail}"> 激活邮箱走起!</a></p>
+   
+    </div>
+ 
+  </div>
+</div>
+</div>
+<script>
+$("#emailtip").modal("show");
+</script>
+{/if}
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="ask-modal">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">提示
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd" id="errorcontent">
+            Modal 内容。
+        </div>
+    </div>
+</div>
+
+<script>
+
+	getcat();
+	function bytes(str) {
+	    var len = 0;
+	    for (var i = 0; i < str.length; i++) {
+	        if (str.charCodeAt(i) > 127) {
+	            len++;
+	        }
+	        len++;
+	    }
+	    return len;
+	}
+function getcat(){
+	
+	var sv=$("#srchcategory").val();
+	
+	 $.ajax({
+	        //提交数据的类型 POST GET
+	        type:"POST",
+	        //提交的网址
+	        url:"{url question/ajaxgetcat}",
+	        //提交的数据
+	        data:{category:sv},
+	        //返回数据的格式
+	        datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+	      //在请求之前调用的函数
+	        beforeSend:function(){
+	     	  
+	        },
+	        //成功返回之后调用的函数
+	        success:function(data){
+	        	
+	        	var data=eval("("+data+")");
+	        	
+	        	  if(data.message=='ok'){
+	        		  $("#cid").val(data.cid);
+	        		  $("#cid1").val(data.cid1);
+	        		  $("#cid2").val(data.cid2);
+	        		  $("#cid3").val(data.cid3);
+	        		 
+	        	  }else{
+	        		 
+	        		  
+	        		   $("#errorcontent").html("分类不存在，估计是缓存引起");
+	                   $('#ask-modal').modal();
+	        	  }
+	        }   ,
+	        
+	        //调用执行后调用的函数
+	        complete: function(XMLHttpRequest, textStatus){
+	     	  
+	        },
+	       
+	        //调用出错执行的函数
+	        error: function(){
+	        	
+	            //请求出错处理
+	        }
+	    });
+}
+$("#srchcategory").change(function(){
+	getcat();
+
+})
+$("#asksubmit").click(function(){
+	
+	tijiao();
+	return false;
+})
+function tijiao(){
+	
+	 var qtitle = $("#qtitle").val();
+    if (bytes($.trim(qtitle)) < 8 || bytes($.trim(qtitle)) > 100) {
+       
+    
+ 
+        
+
+		   $("#errorcontent").html("问题标题长度不得少于4个字，不能超过50字！");
+        $('#ask-modal').modal();
+        $("#qtitle").focus();
+        return false;
+    }
+
+    {if $user['uid']}
+    //检查财富值是否够用
+    var offerscore = 0;
+    var selectsocre = $("#givescore").val();
+	 if ($('#hidanswer').attr('checked')) {  
+        offerscore += 10;
+    }
+    offerscore += parseInt(selectsocre);
+    if (offerscore > $user['credit2']) {
+
+
+
+	   $("#errorcontent").html("你的财富值不够!");
+   $('#ask-modal').modal();
+            return false;
+    }
+    {/if}   
+   
+	 var eidtor_content= $("#description").val();
+	 var _hidanswer=0;
+	 if ($('#hidanswer').attr('checked')) {  
+		 _hidanswer=1;
+	 }
+		 
+	 
+	  <!--{if $setting['code_ask']}-->
+	  var data={
+			  title:$("#qtitle").val(),
+			  description:eidtor_content,
+			  cid:$("#cid").val(),
+			  cid1:$("#cid1").val(),
+			  cid2:$("#cid2").val(),
+			  cid3:$("#cid3").val(),
+			  givescore:$("#scorelist").val(),
+			  hidanswer:_hidanswer,
+			  askfromuid:$("#askfromuid").val(),
+ 			
+ 			code:$("#seccode_verify").val()
+ 	}
+	    <!--{else}-->
+		var data={
+				  title:$("#qtitle").val(),
+   			  description:eidtor_content,
+   			  cid:$("#cid").val(),
+   			  cid1:$("#cid1").val(),
+   			  cid2:$("#cid2").val(),
+   			  cid3:$("#cid3").val(),
+   			  givescore:$("#scorelist").val(),
+   			  hidanswer:_hidanswer,
+   			  askfromuid:$("#askfromuid").val()
+     			
+     			
+   			
+   	}
+	     <!--{/if}-->
+	  
+	    	   var el='';
+	$.ajax({
+       //提交数据的类型 POST GET
+       type:"POST",
+       //提交的网址
+       url:"{url question/ajaxadd}",
+       //提交的数据
+       data:data,
+       async: false,
+       //返回数据的格式
+       datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+       //在请求之前调用的函数
+       beforeSend:function(){
+    	  
+       },
+       //成功返回之后调用的函数             
+       success:function(data){
+    	  // el.loading("hide");
+       
+       	var data=eval("("+data+")");
+          if(data.message=='ok'){
+       	   var tmpmsg='提问成功!';
+       	   if(data.sh=='1'){
+       		   tmpmsg='问题发布成功！为了确保问答的质量，我们会对您的提问内容进行审核。请耐心等待......';
+       	   }
+      
+     
+
+    	   $("#errorcontent").html(tmpmsg);
+       $('#ask-modal').modal();
+       	   setTimeout(function(){
+       		  
+                  window.location.href=data.url;
+              },1500);
+          }else{
+       	
+       
+
+    	   $("#errorcontent").html(data.message);
+       $('#ask-modal').modal();
+          }
+         
+        
+       }   ,
+       //调用执行后调用的函数
+       complete: function(XMLHttpRequest, textStatus){
+    	 //  el.loading("hide");
+    	   return false;
+       },
+       //调用出错执行的函数
+       error: function(){
+           //请求出错处理
+       }         
+    });
+	return false;
+}
+</script>
+<!--{template footer}-->

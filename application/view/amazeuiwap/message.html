@@ -1,0 +1,61 @@
+
+<!--{template header}-->
+        <section class="am-container">
+<!--{template user_menu}-->
+
+
+<ul class="am-avg-sm-2 boxes am-margin-left-sm">
+
+    <li class="box box-1  "><!--{if $type=="personal"}--> <i class="am-icon-check"></i><!--{/if}--><a href="{url message/personal}">私人消息</a></li>
+    <li class="box box-2"><!--{if $type=="system"}--><i class="am-icon-check"></i> <!--{/if}--><a href="{url message/system}">系统消息</a></li>
+
+</ul>
+<form name="msgform" {if $type=='system'}action="{url message/remove}"{else}action="{url message/removedialog}"{/if} method="POST" onsubmit="javascript:if (!confirm('确定删除所选消息全部内容?')) return false;">
+<ul class="am-list">
+
+
+
+<!--{loop $messagelist $message}-->
+    <li id="msg{$message['id']}" {if $message['new']}class="new"{/if}>
+<div class="am-g">
+    <div class="am-u-sm-12 am-cf">
+        <!--{if $message['fromuid']}-->
+        <a class="am-fl"  href="{url user/space/$message['fromuid']}" title="supermustang" target="_blank" class="pic"><img alt="{$message['from']}" src="{$message['from_avatar']}" /></a>
+        <!--{/if}-->
+        <h3  class="am-fl am-margin-top-0 am-text-middle am-margin-left-sm " >
+            <!--{if $message['fromuid']==0}-->
+            <input class="am-checkbox-inline" type='checkbox' value="{$message['id']}" name="messageid[inbox][]"/>
+            {$message['subject']}
+            <!--{else}-->
+            <input class="am-checkbox-inline"  type='checkbox' value="{$message['fromuid']}" name="message_author[]"/>
+            <a href="{url user/space/$message['fromuid']}">{$message['from']}</a> 对 <a href="{url user/score}">您</a> 说：
+            {$message['subject']}
+            <!--{/if}-->
+        </h3>
+    </div>
+
+    <div class="am-u-sm-12">
+
+
+        <!--{if $type!='system'}-->
+        <div class="detail" onclick="javascript:document.location = '{url message/view/$type/$message[fromuid]}';">{$message['content']}</div>
+        <!--{else}-->
+        <div class="detail">{$message['content']}</div>
+        <!--{/if}-->
+    </div>
+    <div class="am-u-sm-12">
+    {$message['format_time']}
+        </div>
+</div>
+
+    </li>
+
+    <!--{/loop}-->
+</ul>
+<input class="am-checkbox-inline" type="checkbox" value="chkall" id="chkall" onclick="checkall('message');"/> 全选  <input type="submit" value="删除" name="submit" class="am-btn am-btn-primary" />
+<div class="pages ">{$departstr}</div>
+
+    </form>
+
+        </section>
+<!--{template footer}-->

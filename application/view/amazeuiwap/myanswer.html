@@ -1,0 +1,50 @@
+
+
+<!--{template header}-->
+<section class="am-container">
+<!--{template user_menu}-->
+
+
+<div class="am-list-news-hd am-cf am-margin-left-sm">
+    <!--带更多链接-->
+    <a href="###">
+        <h2>我的回答</h3>&nbsp;<span>({$answersize})</h2>
+
+    </a>
+</div>
+<!--{if $answerlist}-->
+<ul class="am-list am-margin-sm">
+    <!--{loop $answerlist $answer}-->
+
+
+
+
+
+
+
+    <li class="am-g am-list-item-desced">
+        <a title="{$question['title']}" href="{url question/view/$answer['qid']/u-$user['uid']/a-$answer['id']}" class="am-list-item-hd">{$answer['title']}</a>
+        <div class="am-list-item-text ">{$answer['description']}</div>
+        <div class="am-cf">
+            <small>  <span class="am-fl">   {if $answer['adopttime']>0}<font color="green">已采纳</font>{else}新补充{/if}</span>
+                <span class="am-fr">{$answer['time']}</span></small>
+        </div>
+    </li>
+
+
+
+    <!--{/loop}-->
+</ul>
+<div class="pages">
+    {$departstr}
+</div>
+<!--{else}-->
+<p class="am-text-left"> >您还没有回答过呢！ </p>
+<!--{/if}-->
+
+
+</section>
+
+
+
+<!--{template footer}-->

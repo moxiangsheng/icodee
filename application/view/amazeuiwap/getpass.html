@@ -1,0 +1,24 @@
+<!--{template header}-->
+<section class="am-container" >
+    <form class="am-form" name="getpassform"  action="{url user/getpass}" method="post">
+
+        <br/>
+        <input class="am-form-field am-input-lg" name="username" id="username" type="text" placeholder="请输入账号">
+        <br/>
+        <input type="text" class="am-form-field am-input-lg" id="email" name="email" placeholder="输入注册时邮箱号" />
+       <br>
+        <input type="text" class="am-form-field am-input-lg code-input" id="code" name="code" onblur="check_code();" placeholder="输入验证码"/>
+<div>
+
+    <span id="codetip"></span>
+    <span class="verifycode"><img  src="{url user/code}" onclick="javascript:updatecode();" id="verifycode"></span><a class="changecode" href="javascript:updatecode();">&nbsp;看不清?</a>
+
+
+</div>
+        <input type="submit" value="提&nbsp;交" class="am-btn am-btn-primary am-margin-top-sm" name="submit" />
+        </form>
+
+
+  </section>
+
+<!--{template footer}-->

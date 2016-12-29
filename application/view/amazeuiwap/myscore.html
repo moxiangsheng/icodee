@@ -1,0 +1,47 @@
+<!--{template header}-->
+<section class="am-container">
+<!--{template user_menu}-->
+
+<!--待解决问题-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+    <!--列表标题-->
+    <div class="am-list-news-hd am-cf">
+        <!--带更多链接-->
+        <a href="###">
+            <h2>我的提问</h2>
+            <a href="{url user/ask/1}"> <span class="am-list-news-more am-fr">更多 &raquo;</span></a>
+        </a>
+    </div>
+    <div class="am-list-news-bd">
+        <ul class="am-list">
+
+            <!--{loop $questionlist $question}-->
+
+            <!--{if $question['status']==2}-->
+
+            <li class="am-g am-list-item-desced">
+                <a title="{$question['title']}" href="{url question/view/$question['id']}" class="am-list-item-hd">{$question['title']}<i class="am-icon-check"></i></a>
+                <div class="am-list-item-text ">{$question['description']}</div>
+                <div class="am-cf">
+                    <small>  <span class="am-fl">{$question['answers']}回答</span> <span class="am-fr">{$question['format_time']}</span></small>
+                </div>
+            </li>
+
+            <!--{else}-->
+
+
+            <li class="am-g am-list-item-desced">
+                <a title="{$question['title']}" href="{url question/view/$question['id']}" class="am-list-item-hd">{$question['title']}</a>
+                <div class="am-list-item-text ">{$question['description']}</div>
+                <div class="am-cf">
+                    <small>  <span class="am-fl">{$question['answers']}回答</span> <span class="am-fr">{$question['format_time']}</span></small>
+                </div>
+            </li>
+            <!--{/if}-->
+            <!--{/loop}-->
+
+        </ul>
+    </div>
+</div>
+</section>
+<!--{template footer}-->

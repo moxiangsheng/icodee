@@ -1,0 +1,75 @@
+<!--{template header}-->
+<section class="am-container" >
+    <div data-am-widget="slider" class="am-slider am-slider-c1" data-am-slider='{&quot;directionNav&quot;:false}' >
+        <ul class="am-slides">
+            <!--{eval $topiclistinphone=$this->fromcache('topiclistinphone');}-->
+            <!--{loop $topiclistinphone $index $topic}-->
+
+            <li>
+                <a href="{url topic/getone/$topic['id']}">
+
+                    {eval $index=strpos($topic['image'],'http');}
+                    {if $index==0 }
+
+                    <img src="{$topic['image']}" width="375" height="241" alt="{$topic['title']}">
+                    {else}
+                    <img src="{SITE_URL}{$topic['image']}" width="375" height="241" alt="{$topic['title']}">
+
+                    {/if}
+
+
+
+
+                <div class="am-slider-desc">{$topic['title']}</div>
+</a>
+            </li>
+            <!--{/loop}-->
+
+
+        </ul>
+    </div>
+    <!--{if $topiclist==null}-->
+
+<p class="am-text-center">该栏目下暂时没有文章<a class="am-margin-left-sm" href="{url topic/default}">去看看别的</a> </p>
+    <!--{/if}-->
+    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <!--列表标题-->
+
+        <div class="am-list-news-bd">
+            <ul class="am-list">
+                <!--缩略图在标题上方-->
+
+                <!--{loop $topiclist $index $topic1}-->
+                <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-top">
+                    <div class="am-list-thumb am-col col-sm-12">
+                        <a href="{url topic/getone/$topic1['id']}">
+
+                            {eval $index=strpos($topic1['image'],'http');}
+                            {if $index==0 }
+
+                            <img src="{$topic1['image']}" alt="{$topic1['title']}" />
+                            {else}
+                            <img src="{SITE_URL}{$topic1['image']}" alt="{$topic1['title']}" />
+
+                            {/if}
+
+
+                        </a>
+                    </div>
+                    <div class="am-col am-list-main">
+                        <h3 class="am-list-item-hd">
+                            <a href="{url topic/getone/$topic1['id']}">{$topic1['title']}</a>
+                        </h3>
+                        <div class="am-list-item-text">{eval echo strip_tags($topic1['describtion']);}</div>
+                    </div>
+                </li>
+
+                <!--{/loop}-->
+            </ul>
+        </div>
+        <div class="pages">{$departstr}</div>
+    </div>
+   </section>
+
+
+<!--{template footer}-->

@@ -1,0 +1,23 @@
+<?php if (!defined('app_fox')) exit('No direct script access allowed');?>
+<div id="kuaiwwwad" class="hidden-xs hidden-sm">
+	<div class="kuaiwwwadboxs">
+		<a href="http://www.alimaku.com/spin/view/149" target="_blank"><img src="<?php echo G_STATIC_URL; ?>/css/fox/img/kuaiwww.gif"></a>
+	</div>
+	<div class="kuaiwwwadbox"></div>
+</div>
+<script type="text/javascript">
+$(function() {
+var fixfox="fixedff";
+var rollSet = $('#kuaiwwwad');// 检查对象，#sidebar-tab是要随滚动条固定的ID，可根据需要更改
+var offset = rollSet.offset();
+$(window).scroll(function () {
+// 检查对象的顶部是否在游览器可见的范围内
+var scrollTop = $(window).scrollTop();
+if(offset.top < scrollTop){
+rollSet.addClass(fixfox);
+}else{
+rollSet.removeClass(fixfox);
+}
+});
+});
+</script>
